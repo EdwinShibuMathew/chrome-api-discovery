@@ -456,23 +456,8 @@ class APIDiscoveryBackground {
   }
 
   addEndpoint(endpoint) {
-    // Check if endpoint already exists (same URL + method)
-    const existingIndex = this.endpoints.findIndex(
-      (e) => e.url === endpoint.url && e.method === endpoint.method
-    );
-
-    if (existingIndex >= 0) {
-      // Update existing endpoint with new info
-      this.endpoints[existingIndex] = {
-        ...this.endpoints[existingIndex],
-        ...endpoint,
-        lastSeen: new Date().toISOString(),
-      };
-    } else {
-      // Add new endpoint
-      this.endpoints.push(endpoint);
-    }
-
+    // Always add new endpoint (keep duplicates)
+    this.endpoints.push(endpoint);
     this.saveState();
   }
 
