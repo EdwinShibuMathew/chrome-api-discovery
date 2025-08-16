@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Discovery Test Page</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        .test-section h3 {
+            color: #555;
+            margin-top: 0;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #5a6fd8;
+        }
+        .result {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+        }
+        .status {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            margin: 5px;
+            display: inline-block;
+        }
+        .status.success { background: #d4edda; color: #155724; }
+        .status.error { background: #f8d7da; color: #721c24; }
+        .status.info { background: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 API Discovery Test Page</h1>
+        <p style="text-align: center; color: #666; margin-bottom: 30px;">
+            This page demonstrates various API calls that the Chrome Extension can detect.<br>
+            Make sure the API Discovery extension is loaded and discovery is started.
+        </p>
+
+        <div class="test-section">
+            <h3>📡 REST API Calls</h3>
+            <p>Test various HTTP methods and endpoints:</p>
+            <button onclick="testGET()">GET Request</button>
+            <button onclick="testPOST()">POST Request</button>
+            <button onclick="testPUT()">PUT Request</button>
+            <button onclick="testDELETE()">DELETE Request</button>
+            <div id="rest-results"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔍 Search & Query Parameters</h3>
+            <p>Test endpoints with query parameters:</p>
+            <button onclick="testSearch()">Search API</button>
+            <button onclick="testPagination()">Pagination API</button>
+            <button onclick="testFilters()">Filtered API</button>
+            <div id="search-results"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 Data APIs</h3>
+            <p>Test data retrieval endpoints:</p>
+            <button onclick="testUsers()">Users API</button>
+            <button onclick="testProducts()">Products API</button>
+            <button onclick="testArticles()">Articles API</button>
+            <div id="data-results"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔐 Authentication APIs</h3>
+            <p>Test endpoints that might require authentication:</p>
+            <button onclick="testAuth()">Auth API</button>
+            <button onclick="testProfile()">Profile API</button>
+            <button onclick="testAdmin()">Admin API</button>
+            <div id="auth-results"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📝 Form Submission</h3>
+            <p>Test form submissions that trigger API calls:</p>
+            <form id="test-form" onsubmit="testFormSubmit(event)">
+                <input type="text" id="name" placeholder="Enter name" style="padding: 8px; margin: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                <input type="email" id="email" placeholder="Enter email" style="padding: 8px; margin: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                <button type="submit">Submit Form</button>
+            </form>
+            <div id="form-results"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔄 Batch Operations</h3>
+            <p>Test multiple API calls in sequence:</p>
+            <button onclick="testBatch()">Run Batch Test</button>
+            <div id="batch-results"></div>
+        </div>
+    </div>
+
+    <script>
+        // Mock API base URLs for testing
+        const API_BASE = 'https://jsonplaceholder.typicode.com';
+        const MOCK_API = 'https://httpbin.org';
+        
+        // Utility function to show results
+        function showResult(containerId, message, type = 'info') {
+            const container = document.getElementById(containerId);
+            const status = document.createElement('span');
+            status.className = `status ${type}`;
+            status.textContent = message;
+            container.appendChild(status);
+            
+            // Clear after 3 seconds
+            setTimeout(() => status.remove(), 3000);
+        }
+
+        // Test GET request
+        async function testGET() {
+            try {
+                const response = await fetch(`${API_BASE}/posts/1`);
+                const data = await response.json();
+                showResult('rest-results', `GET /posts/1 - Status: ${response.status}`, 'success');
+            } catch (error) {
+                showResult('rest-results', `GET failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test POST request
+        async function testPOST() {
+            try {
+                const response = await fetch(`${API_BASE}/posts`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title: 'Test Post', body: 'Test content', userId: 1 })
+                });
+                const data = await response.json();
+                showResult('rest-results', `POST /posts - Status: ${response.status}`, 'success');
+            } catch (error) {
+                showResult('rest-results', `POST failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test PUT request
+        async function testPUT() {
+            try {
+                const response = await fetch(`${API_BASE}/posts/1`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: 1, title: 'Updated Post', body: 'Updated content', userId: 1 })
+                });
+                const data = await response.json();
+                showResult('rest-results', `PUT /posts/1 - Status: ${response.status}`, 'success');
+            } catch (error) {
+                showResult('rest-results', `PUT failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test DELETE request
+        async function testDELETE() {
+            try {
+                const response = await fetch(`${API_BASE}/posts/1`, { method: 'DELETE' });
+                showResult('rest-results', `DELETE /posts/1 - Status: ${response.status}`, 'success');
+            } catch (error) {
+                showResult('rest-results', `DELETE failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test search API
+        async function testSearch() {
+            try {
+                const response = await fetch(`${API_BASE}/posts?q=test&limit=10`);
+                const data = await response.json();
+                showResult('search-results', `Search API - Status: ${response.status}`, 'success');
+            } catch (error) {
+                showResult('search-results', `Search failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test pagination API
+        async function testPagination() {
+            try {
+                const response = await fetch(`${API_BASE}/posts?_page=2&_limit=5`);
+                const data = await response.json();
+                showResult('search-results', `Pagination API - Status: ${response.status}`, 'success');
+            } catch (error) {
+                showResult('search-results', `Pagination failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test filtered API
+        async function testFilters() {
+            try {
+                const response = await fetch(`${API_BASE}/posts?userId=1&completed=false`);
+                const data = await response.json();
+                showResult('search-results', `Filtered API - Status: ${response.status}`, 'success');
+            } catch (error) {
+                showResult('search-results', `Filters failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test users API
+        async function testUsers() {
+            try {
+                const response = await fetch(`${API_BASE}/users`);
+                const data = await response.json();
+                showResult('data-results', `Users API - Status: ${response.status}`, 'success');
+            } catch (error) {
+                showResult('data-results', `Users API failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test products API
+        async function testProducts() {
+            try {
+                const response = await fetch(`${API_BASE}/posts?category=products`);
+                const data = await response.json();
+                showResult('data-results', `Products API - Status: ${response.status}`, 'success');
+            } catch (error) {
+                showResult('data-results', `Products API failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test articles API
+        async function testArticles() {
+            try {
+                const response = await fetch(`${API_BASE}/posts?type=article`);
+                const data = await response.json();
+                showResult('data-results', `Articles API - Status: ${response.status}`, 'success');
+            } catch (error) {
+                showResult('data-results', `Articles API failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test auth API
+        async function testAuth() {
+            try {
+                const response = await fetch(`${MOCK_API}/bearer`, {
+                    headers: { 'Authorization': 'Bearer test-token-123' }
+                });
+                const data = await response.json();
+                showResult('auth-results', `Auth API - Status: ${response.status}`, 'success');
+            } catch (error) {
+                showResult('auth-results', `Auth API failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test profile API
+        async function testProfile() {
+            try {
+                const response = await fetch(`${MOCK_API}/headers`, {
+                    headers: { 'X-API-Key': 'test-key-456' }
+                });
+                const data = await response.json();
+                showResult('auth-results', `Profile API - Status: ${response.status}`, 'success');
+            } catch (error) {
+                showResult('auth-results', `Profile API failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test admin API
+        async function testAdmin() {
+            try {
+                const response = await fetch(`${MOCK_API}/status/403`);
+                showResult('auth-results', `Admin API - Status: ${response.status}`, 'success');
+            } catch (error) {
+                showResult('auth-results', `Admin API failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test form submission
+        async function testFormSubmit(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            
+            try {
+                const response = await fetch(`${MOCK_API}/post`, {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                showResult('form-results', `Form submitted - Status: ${response.status}`, 'success');
+            } catch (error) {
+                showResult('form-results', `Form submission failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Test batch operations
+        async function testBatch() {
+            const endpoints = [
+                `${API_BASE}/posts/1`,
+                `${API_BASE}/users/1`,
+                `${API_BASE}/comments/1`,
+                `${MOCK_API}/get`,
+                `${MOCK_API}/status/200`
+            ];
+
+            let successCount = 0;
+            let errorCount = 0;
+
+            for (const endpoint of endpoints) {
+                try {
+                    const response = await fetch(endpoint);
+                    if (response.ok) successCount++;
+                    else errorCount++;
+                } catch (error) {
+                    errorCount++;
+                }
+            }
+
+            showResult('batch-results', `Batch test completed: ${successCount} success, ${errorCount} errors`, 'info');
+        }
+
+        // Auto-run some tests when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                testGET();
+                testUsers();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

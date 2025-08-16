@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Icon Generator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      .icon-container {
+        margin: 20px 0;
+      }
+      canvas {
+        border: 1px solid #ccc;
+        margin: 10px;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Chrome Extension Icon Generator</h1>
+    <p>
+      This page generates PNG icons from SVG designs. Right-click each canvas
+      and "Save image as..." to download.
+    </p>
+
+    <div class="icon-container">
+      <h3>16x16 Icon</h3>
+      <canvas id="icon16" width="16" height="16"></canvas>
+      <button onclick="generateIcon16()">Generate 16x16</button>
+    </div>
+
+    <div class="icon-container">
+      <h3>48x48 Icon</h3>
+      <canvas id="icon48" width="48" height="48"></canvas>
+      <button onclick="generateIcon48()">Generate 48x48</button>
+    </div>
+
+    <div class="icon-container">
+      <h3>128x128 Icon</h3>
+      <canvas id="icon128" width="128" height="128"></canvas>
+      <button onclick="generateIcon128()">Generate 128x128</button>
+    </div>
+
+    <script>
+      function generateIcon16() {
+        const canvas = document.getElementById("icon16");
+        const ctx = canvas.getContext("2d");
+
+        // Clear canvas
+        ctx.clearRect(0, 0, 16, 16);
+
+        // Create gradient background
+        const gradient = ctx.createLinearGradient(0, 0, 16, 16);
+        gradient.addColorStop(0, "#667eea");
+        gradient.addColorStop(1, "#764ba2");
+
+        // Draw background circle
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(8, 8, 7, 0, 2 * Math.PI);
+        ctx.fill();
+
+        // Draw magnifying glass
+        ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(6, 6, 3, 0, 2 * Math.PI);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(9, 9);
+        ctx.lineTo(11, 11);
+        ctx.stroke();
+
+        // Draw API symbols
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(10, 3, 2, 2);
+        ctx.fillRect(3, 10, 2, 2);
+        ctx.fillRect(11, 11, 1.5, 1.5);
+      }
+
+      function generateIcon48() {
+        const canvas = document.getElementById("icon48");
+        const ctx = canvas.getContext("2d");
+
+        // Clear canvas
+        ctx.clearRect(0, 0, 48, 48);
+
+        // Create gradient background
+        const gradient = ctx.createLinearGradient(0, 0, 48, 48);
+        gradient.addColorStop(0, "#667eea");
+        gradient.addColorStop(1, "#764ba2");
+
+        // Draw background circle
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(24, 24, 22, 0, 2 * Math.PI);
+        ctx.fill();
+
+        // Draw magnifying glass
+        ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(18, 18, 9, 0, 2 * Math.PI);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(27, 27);
+        ctx.lineTo(33, 33);
+        ctx.stroke();
+
+        // Draw API symbols
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(30, 9, 6, 6);
+        ctx.fillRect(9, 30, 6, 6);
+        ctx.fillRect(33, 33, 4.5, 4.5);
+
+        // Additional elements
+        ctx.beginPath();
+        ctx.arc(36, 12, 2, 0, 2 * Math.PI);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(12, 36, 2, 0, 2 * Math.PI);
+        ctx.fill();
+      }
+
+      function generateIcon128() {
+        const canvas = document.getElementById("icon128");
+        const ctx = canvas.getContext("2d");
+
+        // Clear canvas
+        ctx.clearRect(0, 0, 128, 128);
+
+        // Create gradient background
+        const gradient = ctx.createLinearGradient(0, 0, 128, 128);
+        gradient.addColorStop(0, "#667eea");
+        gradient.addColorStop(1, "#764ba2");
+
+        // Draw background circle
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(64, 64, 60, 0, 2 * Math.PI);
+        ctx.fill();
+
+        // Draw magnifying glass
+        ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 6;
+        ctx.beginPath();
+        ctx.arc(48, 48, 24, 0, 2 * Math.PI);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(72, 72);
+        ctx.lineTo(88, 88);
+        ctx.stroke();
+
+        // Draw API symbols
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(80, 24, 16, 16);
+        ctx.fillRect(24, 80, 16, 16);
+        ctx.fillRect(88, 88, 12, 12);
+
+        // Additional elements
+        ctx.beginPath();
+        ctx.arc(96, 32, 4, 0, 2 * Math.PI);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(32, 96, 4, 0, 2 * Math.PI);
+        ctx.fill();
+
+        // Code brackets
+        ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(40, 56);
+        ctx.lineTo(32, 64);
+        ctx.lineTo(40, 72);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(88, 56);
+        ctx.lineTo(96, 64);
+        ctx.lineTo(88, 72);
+        ctx.stroke();
+
+        // Data flow arrows
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(56, 40);
+        ctx.lineTo(64, 32);
+        ctx.lineTo(72, 40);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(56, 88);
+        ctx.lineTo(64, 96);
+        ctx.lineTo(72, 88);
+        ctx.stroke();
+      }
+
+      // Generate all icons on page load
+      window.addEventListener("load", () => {
+        generateIcon16();
+        generateIcon48();
+        generateIcon128();
+      });
+    </script>
+  </body>
+</html>
