@@ -35,103 +35,111 @@ A browser extension that automatically discovers and generates OpenAPI specifica
 ## 📋 Table of Contents
 
 - [Overview](#overview)
-- [Architecture](#architecture)
-- [Quickstart](#quickstart)
-- [Development](#development)
-- [Testing](#testing)
-- [Usage Guide](#usage-guide)
-- [OpenAPI Generation](#openapi-generation)
-- [Export & Integration](#export--integration)
-- [Security & Privacy](#security--privacy)
-- [Troubleshooting](#troubleshooting)
-- [FAQ](#faq)
-- [Roadmap](#roadmap)
-- [Contributing](#contributing)
-- [License](#license)
 
-## 🏗️ Repository Structure
+# 🚦 API Discovery: HARless
 
-```
-chrome-api-discovery/
-├── manifest.json
-├── icons/
-│   ├── icon16.png
-│   ├── icon48.png
-│   └── icon128.png
-├── popup/
-│   ├── popup.html
-│   ├── popup.js
-│   └── popup.css
-├── background/
-│   └── background.js
-├── content/
-│   └── content.js
-├── lib/
-│   ├── api-analyzer.js
-│   ├── openapi-generator.js
-│   └── utils.js
-└── README.md
-```
+> **Discover, Document, and Export Hidden APIs Instantly!**
 
-## 🏛️ Architecture
+---
 
-### Component Communication
+## 👋 Introduction
 
-````mermaid
+**HARless** is a Chrome extension that helps you uncover hidden APIs on any website and instantly generate OpenAPI documentation. Perfect for developers, testers, and anyone curious about how web apps communicate behind the scenes.
+
+---
+
+## � Key Features
+
+- 🔍 **Automatic API Discovery**: Captures all XHR/fetch network requests as you browse
+- 🧠 **Pattern Recognition**: Groups endpoints, infers parameters, and detects authentication
+- 📄 **OpenAPI Generation**: Instantly creates OpenAPI 3.0+ specs (YAML/JSON)
+- ⬇️ **One-Click Export**: Download your API docs for Swagger, Postman, or Jentic
+- 🛡️ **Privacy First**: Sensitive data is redacted; all processing is local
+
+---
+
+## �️ How It Works
+
+```mermaid
 graph TB
-    subgraph "Extension Components"
-        P[Popup UI]
-        B[Background Service Worker]
-        C[Content Script]
-        L[Library Modules]
+  subgraph "Extension"
+    P[Popup UI]
+    B[Background Service Worker]
+    C[Content Script]
+    L[Library Modules]
+  end
+  subgraph "Web Page"
+    WP[Target Website]
+    NR[Network Requests]
+  end
+  P -- Start/Stop/Export --> B
+  B -- Inject/Monitor --> C
+  C -- User Actions --> WP
+  WP -- API Calls --> NR
+  NR -- Captured --> B
+  B -- Analyze/Store --> L
+  L -- Generate --> B
+  B -- Export --> P
+```
 
-    # API Discovery: HARless
+---
 
-    A Chrome extension that helps you discover hidden APIs on any website and instantly generate OpenAPI documentation.
+## 🚀 Live Demo (How To Use)
 
-    ---
+1. **Clone the repo:**
+   ```bash
+   git clone https://github.com/EdwinShibuMathew/chrome-api-discovery.git
+   cd chrome-api-discovery
+   ```
+2. **Load in Chrome:**
+   - Go to `chrome://extensions/`
+   - Enable **Developer mode**
+   - Click **Load unpacked** and select the folder
+3. **Click the extension icon** and hit **Start Discovery**
+4. **Browse any site**—watch endpoints appear in real time!
+5. **Export** your OpenAPI spec with one click
 
-    ## 🚀 What Does It Do?
+---
 
-    - **Monitors** network requests (XHR/fetch) on any site you visit
-    - **Identifies** API endpoints, methods, and parameters
-    - **Generates** OpenAPI 3.0+ specs (YAML/JSON) automatically
-    - **Exports** results for use in tools like Swagger, Postman, or Jentic
-    - **Simple UI**: Start/stop discovery, view endpoints, and export with one click
+## 🖼️ Example Use Case
 
-    ---
+> "I want to reverse-engineer a web app's API for integration or testing."
 
-    ## 🏁 Quick Start
+1. Start HARless and begin discovery
+2. Interact with the web app (search, login, etc.)
+3. See all discovered endpoints and parameters
+4. Export a ready-to-use OpenAPI spec
 
-    1. **Clone this repo:**
-      ```bash
-      git clone https://github.com/yourusername/chrome-api-discovery.git
-      cd chrome-api-discovery
-      ```
+---
 
-    2. **Load the extension in Chrome:**
-      - Go to `chrome://extensions/`
-      - Enable **Developer mode** (top right)
-      - Click **Load unpacked** and select the `chrome-api-discovery` folder
+## 🧪 Testing & Validation
 
-    3. **Start discovering APIs:**
-      - Click the extension icon in your toolbar
-      - Click **Start Discovery**
-      - Browse any website—watch the endpoint counter increase!
-      - Click **Export** to download OpenAPI specs
+- Try on sites like **GitHub**, **Reddit**, or your favorite news/e-commerce site
+- Use [Swagger Editor](https://editor.swagger.io/) to validate your exported OpenAPI file
 
-    ---
+---
 
-    ## 🖼️ How It Works
+## 🔒 Security & Privacy
 
-    - **Popup UI:** Control discovery, view endpoints, and export data
-    - **Background Script:** Monitors network requests and stores endpoints
-    - **Content Script:** Gathers extra context from the page
-    - **Library Modules:** Analyze APIs and generate OpenAPI specs
+- Sensitive headers (tokens, cookies) are always redacted
+- No data ever leaves your browser
+- Use the **Clear Data** button to erase all captured info
 
-    ---
+---
 
-    ## 🧪 Testing
+## 🛠️ Troubleshooting
+
+- **Extension won't load?** Check for errors in `chrome://extensions`
+- **No requests captured?** Make sure discovery is started and reload the page
+- **Export empty?** Ensure the site made at least one API call
+
+---
+
+## 📄 License
+
+MIT License
+
+---
 
     - Try on sites like GitHub, Reddit, news, or e-commerce pages
     - Use the popup to start/stop discovery and export results
@@ -160,4 +168,7 @@ graph TB
     MIT License
 
     ---
-````
+
+```
+
+```
