@@ -9,10 +9,6 @@
 
 A browser extension that automatically discovers and generates OpenAPI specifications from any website by analyzing network traffic and API calls.
 
-**Time Estimate:** 4–6 hours  
-**Difficulty:** Beginner → Intermediate  
-**Perfect for:** Web developers interested in browser APIs, reverse engineering, and making hidden APIs discoverable.
-
 ## 🎯 Outcome
 
 - Monitors network requests on any website
@@ -23,14 +19,14 @@ A browser extension that automatically discovers and generates OpenAPI specifica
 
 ## ✅ Acceptance Criteria
 
-- [ ] Loads as MV3 extension on Chrome (126+)
-- [ ] Captures and lists API-like requests (XHR/fetch) with method, path, status
-- [ ] Infers endpoints + parameters and groups by base URL
-- [ ] Generates valid OpenAPI 3.0+ (JSON/YAML)
-- [ ] Exports files via download with correct MIME type
-- [ ] Redacts secrets/PII before storage/export
-- [ ] Clear "Start/Stop Discovery", "Export", "Clear Data" buttons
-- [ ] README quickstart works end-to-end
+- [✅] Loads as MV3 extension on Chrome (126+)
+- [✅] Captures and lists API-like requests (XHR/fetch) with method, path, status
+- [✅] Infers endpoints + parameters and groups by base URL
+- [✅] Generates valid OpenAPI 3.0+ (JSON/YAML)
+- [✅] Exports files via download with correct MIME type
+- [✅] Redacts secrets/PII before storage/export
+- [✅] Clear "Start/Stop Discovery", "Export", "Clear Data" buttons
+- [✅] README quickstart works end-to-end
 
 ## 📋 Table of Contents
 
